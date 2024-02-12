@@ -1,0 +1,9 @@
+hyper[h2]
+pyopenssl
+twisted[http2]==17.1.0
+bson
+pyarrow
+service-identity
+msgpack
+gunicorn
+openai==1.12.0

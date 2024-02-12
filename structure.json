@@ -1,0 +1,29 @@
+{
+    "algoType": "Map",
+    "inputs_schema": {
+        "text": {
+            "title": "Text",
+            "is_required": true,
+            "type_text": "Text"
+        }
+    },
+    "outputs_schema": {
+        "predict": {
+            "title": "Extracted",
+            "vis_type": 1,
+            "type_text": "JSON"
+        }
+    },
+    "func_args_schema": {
+        "properties": {
+            "title": "block properties Json",
+            "is_required": true,
+            "type_text": "JSON"
+        },
+        "credentials": {
+            "title": "key value credentials",
+            "is_required": true,
+            "type_text": "JSON"
+        }
+    }
+}
