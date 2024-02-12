@@ -54,14 +54,14 @@ class GPTExtractorTask(ServiceRunner):
                 3. If a value does not exist, set it as an empty string ("").
                 4. Format the output strictly as shown in the example below. Do not add any extra text or characters outside the specified JSON structure.
 
-            Input 'text' to extract from (String type):
+            Input 'text' to extract from:
             ----------
             ```
                 {bytes_to_escaped_string(inputs.text)}
             ```
             ----------
 
-            Your final output should match the following format exactly (JSON type):
+            Your final output should match the following format exactly:
             ----------
             __START__
             ```{json.dumps({"masked_data": ""})}```
