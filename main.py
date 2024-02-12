@@ -9,6 +9,15 @@ import re
 from augmatrix.block_service.service_runner import ServerManager, ServiceRunner
 from openai import OpenAI
 
+def bytes_to_escaped_string(byte_data):
+    # Use a generator expression to convert each byte to its escaped representation if needed
+    escaped_string = ''.join(
+        '\\n' if b == b'\n'[0] else
+        '\\r' if b == b'\r'[0] else
+        chr(b) for b in byte_data
+    )
+    return escaped_string
+
 class GPTExtractorTask(ServiceRunner):
     def __init__(self, logger: object) -> None:
         """
@@ -45,17 +54,17 @@ class GPTExtractorTask(ServiceRunner):
                 3. If a value does not exist, set it as an empty string ("").
                 4. Format the output strictly as shown in the example below. Do not add any extra text or characters outside the specified JSON structure.
 
-            Input 'text' to extract from:
+            Input 'text' to extract from (String type):
             ----------
             ```
-                {inputs.text}
+                {bytes_to_escaped_string(inputs.text)}
             ```
             ----------
 
-            Your final output should match the following format exactly:
+            Your final output should match the following format exactly (JSON type):
             ----------
             __START__
-            ```{"masked_data": ""}```
+            ```{json.dumps({"masked_data": ""})}```
             __END__
             ----------
             Make sure to replace placeholders with actual values extracted from the input text. If a specific value is not available in the input text, leave the value as an empty string.
@@ -78,8 +87,8 @@ class GPTExtractorTask(ServiceRunner):
             raise ValueError("No response from OpenAI API.")
         
         response_text = response.choices[0].message.content.strip()
-        start_text = r"__START__\s+```"
-        end_text = "```\s+__END__"
+        start_text = r"__START__\s*```"
+        end_text = "```\s*__END__"
         match = re.search(f"{start_text}(?P<output>(.|\n)+){end_text}", response_text, re.DOTALL)
 
         if match:
