@@ -78,7 +78,7 @@ class GPTExtractorTask(ServiceRunner):
             raise ValueError("No response from OpenAI API.")
         
         response_text = response.choices[0].message.content.strip()
-        start_text = r"__START__\s*```"
+        start_text = r"__START__\s*```(json)?"
         end_text = "```\s*__END__"
         match = re.search(f"{start_text}(?P<output>(.|\n)+){end_text}", response_text, re.DOTALL)
 
