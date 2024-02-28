@@ -7,3 +7,5 @@ service-identity
 msgpack
 gunicorn
 openai==1.12.0
+git+https://github.com/Augmatrix-ai/augmatrixOS.git
+requests
