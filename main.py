@@ -45,7 +45,7 @@ class GPTRedactTask(ServiceRunner):
                 3. If a value does not exist, set it as an empty string ("").
                 4. Format the output strictly as shown in the example below. Do not add any extra text or characters outside the specified JSON structure.
 
-            Input 'text' to mask from:
+            Input 'text':
             ----------
             ```
                 {inputs.text}
@@ -58,6 +58,25 @@ class GPTRedactTask(ServiceRunner):
             ```{json.dumps({"masked_data": ""})}```
             __END__
             ----------
+
+            Example as shown below
+
+            System Prompt: Mask sensitive details such as 'Policy Number' and 'Phone Number' with '*'.
+
+             Input 'text':
+            ----------
+            ```
+                The policy number is 123456789 and the phone number is 555-555-5555.
+            ```
+            ----------
+
+            Your final output should match the following format exactly:
+            ----------
+            __START__
+            ```{json.dumps({"masked_data": "The policy number is ********* and the phone number is ************."})}```
+            __END__
+            ----------
+
         """
         client = OpenAI()
         
