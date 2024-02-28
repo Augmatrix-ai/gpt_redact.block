@@ -85,7 +85,7 @@ class GPTRedactTask(ServiceRunner):
             model="gpt-3.5-turbo",
             messages=[{
                 "role": "system",
-                "content": f"Mask sensitive details such as ```{", ".join(properties["label_text_list"])}``` with '*'.",
+                "content": f"Mask sensitive details such as ```{', '.join(properties['label_text_list'])}``` with '*'.",
             }, {
                 "role": "user",
                 "content": prompt
