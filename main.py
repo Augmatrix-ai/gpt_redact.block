@@ -9,10 +9,10 @@ import re
 from augmatrix.block_service.service_runner import ServerManager, ServiceRunner
 from openai import OpenAI
 
-class GPTExtractorTask(ServiceRunner):
+class GPTRedactTask(ServiceRunner):
     def __init__(self, logger: object) -> None:
         """
-        Initialize GPT Extractor Task object.
+        Initialize GPT Redact Task object.
 
         Parameters:
         logger (object): A logger object to log messages and errors.
@@ -22,7 +22,7 @@ class GPTExtractorTask(ServiceRunner):
 
     def run(self, inputs, properties, credentials):
         """
-        Perform extraction using OpenAI model.
+        Perform masking using OpenAI model.
 
         Parameters:
         inputs (Dict): A dictionary object containing the input data.
@@ -45,7 +45,7 @@ class GPTExtractorTask(ServiceRunner):
                 3. If a value does not exist, set it as an empty string ("").
                 4. Format the output strictly as shown in the example below. Do not add any extra text or characters outside the specified JSON structure.
 
-            Input 'text' to extract from:
+            Input 'text' to mask from:
             ----------
             ```
                 {inputs.text}
@@ -58,7 +58,6 @@ class GPTExtractorTask(ServiceRunner):
             ```{json.dumps({"masked_data": ""})}```
             __END__
             ----------
-            Make sure to replace placeholders with actual values extracted from the input text. If a specific value is not available in the input text, leave the value as an empty string.
         """
         client = OpenAI()
         
@@ -97,7 +96,7 @@ class GPTExtractorTask(ServiceRunner):
 
 
 if __name__ == "__main__":
-    ServerManager(GPTExtractorTask(logger=None)).start(
+    ServerManager(GPTRedactTask(logger=None)).start(
         host="localhost",
         port=8083,
         # Assuming TLS/SSL is not a requirement for this migration example.
