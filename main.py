@@ -66,14 +66,14 @@ class GPTRedactTask(ServiceRunner):
              Input 'text':
             ----------
             ```
-                The policy number is 123456789 and the phone number is 555-555-5555.
+                The policy number is 123456789 \n\n and the phone number is 555-555-5555.
             ```
             ----------
 
-            Your final output should match the following format exactly:
+            Your final output should match the following format exactly (don't remove \n\n keep as it is):
             ----------
             __START__
-            ```{json.dumps({"masked_data": "The policy number is ********* and the phone number is ************."})}```
+            ```{json.dumps({"masked_data": "The policy number is ********* \n\n and the phone number is ************."})}```
             __END__
             ----------
 
@@ -109,8 +109,9 @@ class GPTRedactTask(ServiceRunner):
         result = None
         try:
             result = {"predict": json.loads(extraction)}
-        except json.decoder.JSONDecodeError:
-            print(response_text)
+        except json.decoder.JSONDecodeError as e:
+            print(e)
+
         return result
 
 
