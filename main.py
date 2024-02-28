@@ -38,6 +38,8 @@ class GPTRedactTask(ServiceRunner):
         if openai.organization is None or openai.api_key is None:
             raise ValueError("OpenAI credentials are not provided")
 
+        input_text = inputs.text.replace("\n", "\n\n")
+
         prompt = f"""
             Instructions         
                 1. Do not write code. Directly perform the task on the provided 'text'.
@@ -48,7 +50,7 @@ class GPTRedactTask(ServiceRunner):
             Input 'text':
             ----------
             ```
-                {inputs.text}
+                {input_text}
             ```
             ----------
 
@@ -66,14 +68,14 @@ class GPTRedactTask(ServiceRunner):
              Input 'text':
             ----------
             ```
-                The policy number is 123456789 \n\n and the phone number is 555-555-5555.
+                The policy number is 123456789 and the phone number is 555-555-5555.
             ```
             ----------
 
-            Your final output should match the following format exactly (don't remove \n\n keep as it is):
+            Your final output should match the following format exactly:
             ----------
             __START__
-            ```{json.dumps({"masked_data": "The policy number is ********* \n\n and the phone number is ************."})}```
+            ```{json.dumps({"masked_data": "The policy number is ********* and the phone number is ************."})}```
             __END__
             ----------
 
